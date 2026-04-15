@@ -1,0 +1,17 @@
+﻿blocking_rules:
+  - id: NMLEAK001
+    name: malloc_without_free
+    severity: CRITICAL
+    alloc_patterns:
+      - "malloc("
+      - "calloc("
+      - "realloc("
+      - "strdup("
+    free_patterns:
+      - "free("
+    file_ext:
+      - ".c"
+      - ".cc"
+      - ".cpp"
+      - ".h"
+      - ".hpp"

@@ -1,0 +1,29 @@
+name: memcheck
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  memcheck:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install clang tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y clang clang-tidy cmake build-essential
+
+      - name: Configure project
+        run: |
+          cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -B build
+
+      - name: Run CI memcheck
+        run: |
+          python3 tools/memcheck/ci_scan.py

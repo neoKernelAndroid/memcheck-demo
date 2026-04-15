@@ -1,0 +1,7 @@
+#!/bin/sh
+python3 tools/memcheck/precommit_scan.py
+if [ $? -ne 0 ]; then
+  echo "pre-commit memcheck failed"
+  exit 1
+fi
+exit 0

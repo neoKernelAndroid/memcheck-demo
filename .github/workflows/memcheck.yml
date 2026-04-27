@@ -24,6 +24,19 @@ jobs:
         run: |
           cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -B build
 
+      - name: Verify compile database
+        run: |
+          test -f build/compile_commands.json
+          echo "compile_commands.json generated"
+          ls -lh build/compile_commands.json
+          head -n 20 build/compile_commands.json
+
       - name: Run CI memcheck
         run: |
           python3 tools/memcheck/ci_scan.py
+
+      - name: Upload compile database artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compile_commands
+          path: build/compile_commands.json
